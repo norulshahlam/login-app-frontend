@@ -1,54 +1,65 @@
-import axios from 'axios';
-import React from 'react'
-import { API_URL } from '../Constants'
+import axios from "axios";
+import React, { useState } from "react";
+import { API_URL } from "../Constants";
 
-const Login = () =>
-{
+const Login = () => {
+  const [error, setError] = useState(false);
 
-
-  const handleSubmit = (e) =>
-  {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(error);
     const username = e.target.username.value;
     const password = e.target.password.value;
-  
-    e.preventDefault();
-    console.log(e.target.username.value);
-    console.log(e.target.password.value);
+    setError(true);
+    console.log(username, password);
 
-    axios.post(`${API_URL}/login`,
-      {
-        headers: {
-          authorization:
-          'Basic ' + window.btoa(username + ":" + password)
-        }
+    let bodyFormData = new FormData();
+    bodyFormData.append("username", username);
+    bodyFormData.append("password", password);
+    console.log(1);
+    axios({
+      method: "post",
+      url: "http://localhost:8000/login",
+      data: bodyFormData,
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        console.log("hello", res);
       })
-      .then((response) =>
-      {
-         console.log(response.data)
-         console.log("success")
-      }).catch((error) =>
-      {
-        console.log(error)
-      })
-  }
+      .catch((error) => {
+        console.log("err", error);
+      });
+  };
 
   return (
     <div className="login">
-      <h1>
-    Welcome to My Login App!
-      </h1>
-
-      <h2>
-        Enter your credentials:
-      </h2>
-      {/* <form onSubmit={(e)=>handleSubmit(e)}> */}
-      <form action="http://localhost:8000/login" method="POST">
-      <input type="text"  placeholder="username" name="username" id="username" /><br />
-      <input type="text" placeholder="password" name="password" id="password" /><br />
-      <input type="submit" value="Submit" />
-    </form>
+      {error && <h1>Invalid credentials!</h1>}
+      <h1>Welcome to My Login App!</h1>
+      <h2>Enter your credentials:</h2>
+      {/* <form action="http://localhost:8000/login" method="POST"> */}
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
+        <input
+          type="text"
+          placeholder="username"
+          name="username"
+          id="username"
+        />
+        <br />
+        <input
+          type="text"
+          placeholder="password"
+          name="password"
+          id="password"
+        />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

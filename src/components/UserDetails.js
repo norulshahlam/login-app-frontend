@@ -1,22 +1,19 @@
 import React from 'react'
 
-const UserDetails = () =>
-{
-  const name="name"
-  const username="username"
-  const role="role"
+const UserDetails = ({user}) =>
+  {
 
   return (
     <div>
       <h2>
         <div>
-        Your name: {name}
+        Your name: {user.name}
         </div>
         <div>
-        Your username: {username}
+        Your username: {user.username}
         </div>
         <div>
-        Your role: {role}
+        Your role: {user.role}
         </div>
       </h2>
     </div>

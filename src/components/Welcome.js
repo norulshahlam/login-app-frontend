@@ -1,32 +1,42 @@
-import React,{ useEffect } from "react";
+import React,{ useEffect, useState,useContext } from "react";
 import UserDetails from "./UserDetails";
-import {Link} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import axios from 'axios';
+import { API_URL } from '../Constants'
+import { UserContext } from "./UserContext";
 
 const Welcome = () =>
 {
+  const history = useHistory();
+  // const [user, setUser] = useState({name:"", username:"", role:[]});
+  const { user, setUser } = useContext(UserContext);
+  
   useEffect(() =>
   {
-    console.log(window.Object)
-  })
-
-
-  var req = new XMLHttpRequest();
-  req.open('GET', document.location, false);
-  req.send(null);
-  var headers = req
-  console.log("rsg", headers)
-  
+    
+    axios.get(`${API_URL}/userdetails`)
+    .then((response) =>
+    {
+      setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
+      console.log("success")
+    }).catch((error) =>
+    {
+     history.push("/login")
+      console.log(error)
+    })
+  },[])
+  console.log(user)
   
   return (
     <div>
       <div className="header">
         <h2>welcome</h2>
           <a href= "http://localhost:8000/logout">Logout</a>
-      <Link to="/restricted">Restricted page</Link>
+        {user.role.includes("MANAGER") && <Link to="/restricted">Restricted page</Link>}
 
       </div>
       <div>
-        <UserDetails />
+        <UserDetails user={ user}/>
       </div>
     </div>
   );
