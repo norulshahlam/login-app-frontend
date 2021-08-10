@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState,useContext } from "react";
-import { API_URL } from "../Constants";
 import { useHistory } from "react-router-dom";
 
 import { UserContext } from "./UserContext";
@@ -8,9 +7,9 @@ import { UserContext } from "./UserContext";
 const Login = () =>
 {
   const history = useHistory();
-  
   const [error, setError] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  console.log(user)
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target.username.value;
@@ -35,7 +34,7 @@ const Login = () =>
         console.log("success login")
         history.push("/welcome")
       })
-      .catch((error) => {
+      .catch(() => {
        setError(true)
       });
   };

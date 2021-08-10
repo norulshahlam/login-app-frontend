@@ -1,44 +1,69 @@
-import React,{ useEffect, useState,useContext } from "react";
+import React, { useEffect,  useContext } from "react";
 import UserDetails from "./UserDetails";
 import { Link, useHistory } from "react-router-dom";
-import axios from 'axios';
-import { API_URL } from '../Constants'
+import axios from "axios";
+import { API_URL } from "../Constants";
 import { UserContext } from "./UserContext";
 
-const Welcome = () =>
-{
+const Welcome = () => {
   const history = useHistory();
-  // const [user, setUser] = useState({name:"", username:"", role:[]});
   const { user, setUser } = useContext(UserContext);
-  
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(3);
+    axios
+      .get(`${API_URL}/logout`)
+      .then((response) => {
+        console.log(response);
+        setUser({name: "", username:"", role: [""]})
+        history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() =>
   {
-    if (user.name == "") {
-      history.push("/login")
+    
+    axios({
+      method: "get",
+      url: "http://localhost:8000/userdetails",
+    })
+      .then((response) =>
+      {
+        console.log(response)
+        setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
+        console.log("success login")
+        history.push("/welcome")
+      })
+      .catch(() => {
+      });
+
+    if (user.name === "") {
+      history.push("/login");
     }
-    // axios.get(`${API_URL}/userdetails`)
-    // .then((response) =>
-    // {
-    //   setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
-    //   console.log("success")
-    // }).catch((error) =>
-    // {
-    //  history.push("/login")
-    //   console.log(error)
-    // })
-  },[])
-  console.log(user)
-  
+   
+  }, []);
+
   return (
     <div>
       <div className="header">
         <h2>welcome</h2>
-          <a href= "http://localhost:8000/logout">Logout</a>
-        {user.role.includes("MANAGER") && <Link to="/restricted">Restricted page</Link>}
-
+        <button
+          onClick={(e) => {
+            handleClick(e);
+          }}
+        >
+          Logout
+        </button>
+        {user.role.includes("MANAGER") && (
+          <Link to="/restricted">Restricted page</Link>
+        )}
       </div>
       <div>
-        <UserDetails user={ user}/>
+        <UserDetails user={user} />
       </div>
     </div>
   );
