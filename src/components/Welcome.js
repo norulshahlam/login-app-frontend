@@ -29,22 +29,18 @@ const Welcome = () => {
     
     axios({
       method: "get",
-      url: "http://localhost:8000/userdetails",
+      url: `${API_URL}/userdetails`,
     })
       .then((response) =>
       {
         console.log(response)
         setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
-        console.log("success login")
-        history.push("/welcome")
       })
-      .catch(() => {
-      });
+      .catch(() =>
+      {
+        history.push("/login");
+      });     
 
-    if (user.name === "") {
-      history.push("/login");
-    }
-   
   }, []);
 
   return (

@@ -15,12 +15,10 @@ const Login = () =>
     const username = e.target.username.value;
     const password = e.target.password.value;
     setError(true);
-    console.log(username, password);
 
     let bodyFormData = new FormData();
     bodyFormData.append("username", username);
     bodyFormData.append("password", password);
-    console.log("handleSubmit");
     axios({
       method: "post",
       url: "http://localhost:8000/login",
