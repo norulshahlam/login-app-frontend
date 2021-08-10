@@ -13,17 +13,19 @@ const Welcome = () =>
   
   useEffect(() =>
   {
-    
-    axios.get(`${API_URL}/userdetails`)
-    .then((response) =>
-    {
-      setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
-      console.log("success")
-    }).catch((error) =>
-    {
-     history.push("/login")
-      console.log(error)
-    })
+    if (user.name == "") {
+      history.push("/login")
+    }
+    // axios.get(`${API_URL}/userdetails`)
+    // .then((response) =>
+    // {
+    //   setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
+    //   console.log("success")
+    // }).catch((error) =>
+    // {
+    //  history.push("/login")
+    //   console.log(error)
+    // })
   },[])
   console.log(user)
   
