@@ -1,4 +1,4 @@
-import React, { useEffect,  useContext } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import UserDetails from "./UserDetails";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { UserContext } from "./UserContext";
 const Welcome = () => {
   const history = useHistory();
   const { user, setUser } = useContext(UserContext);
+
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ const Welcome = () => {
 
   useEffect(() =>
   {
-    
+
     axios({
       method: "get",
       url: `${API_URL}/userdetails`,
@@ -47,6 +48,7 @@ const Welcome = () => {
     <div>
       <div className="header">
         <h2>welcome</h2>
+        <h3>{a}</h3>
         <button
           onClick={(e) => {
             handleClick(e);
