@@ -1,14 +1,13 @@
 import axios from "axios";
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
-const Login = () =>
-{
+const Login = () => {
   const history = useHistory();
   const [error, setError] = useState(false);
   const { user, setUser } = useContext(UserContext);
-  console.log(user)
+  console.log(user);
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target.username.value;
@@ -18,20 +17,25 @@ const Login = () =>
     bodyFormData.append("username", username);
     bodyFormData.append("password", password);
     axios({
-      method: "post", 
+      method: "post",
       url: "http://localhost:8000/login",
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data; charset=utf-8" },
     })
-      .then((response) =>
-      {
-        console.log(response)
-        setUser({name: response.data.name, username: response.data.principal.username, role: response.data.principal.authorities.map((item)=> item.authority.slice(5))})
-        console.log("success login")
-        history.push("/welcome")
+      .then((response) => {
+        console.log(response);
+        setUser({
+          name: response.data.name,
+          username: response.data.principal.username,
+          role: response.data.principal.authorities.map((item) =>
+            item.authority.slice(5)
+          ),
+        });
+        console.log("success login");
+        history.push("/welcome");
       })
       .catch(() => {
-       setError(true)
+        setError(true);
       });
   };
 

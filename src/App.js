@@ -6,21 +6,14 @@ import Restricted from "./components/Restricted";
 
 function App()
 {
-  
   return (
     <div className="app">
       <Switch>
         <Route exact path="/login" component={Login} />
-       
           <Route exact path="/welcome" component={Welcome} />
-  
-          
           <Route exact path="/restricted" component={Restricted} />
-     
-        
       </Switch>
     </div>
   );
 }
-
 export default App;

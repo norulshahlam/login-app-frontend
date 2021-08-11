@@ -39,8 +39,7 @@ const Welcome = () => {
           ),
         });
       })
-      .catch(() =>
-      {
+      .catch(() => {
         // redirect to /login if not logged in
         history.push("/login");
       });
