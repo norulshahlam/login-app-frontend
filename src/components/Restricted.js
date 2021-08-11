@@ -7,17 +7,7 @@ import { API_URL } from "../Constants";
 const Restricted = () => {
   const history = useHistory();
   const { user, setUser } = useContext(UserContext);
-  if (user.role.includes("USER")) {
-    console.log(user.role)
-    console.log(6)
-    history.push("/welcome");
-  }
-  if (user.name === "") {
-    console.log(user.name)
-    console.log(user.role)
-    console.log(7);
-    history.push("/login");
-  }
+
   useEffect(() => {
     axios({
       method: "get",
@@ -32,12 +22,18 @@ const Restricted = () => {
             item.authority.slice(5)
           ),
         });
-        console.log(user.name)
+        // redirect to /welcome if not MANAGER role
+        if (!response.data.principal.authorities.includes("MANAGER")) {
+          console.log(user.role);
+          console.log(6);
+          history.push("/welcome");
+        }
       })
-      .catch(() => {})
-      .finally(() => {
-       
-      });
+      .catch(() => {
+        // redirect to /login if not logged in
+        history.push("/login");
+      })
+      .finally(() => {});
   }, []);
   return <div>restricted page</div>;
 };

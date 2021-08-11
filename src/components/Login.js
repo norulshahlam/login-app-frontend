@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState,useContext } from "react";
 import { useHistory } from "react-router-dom";
-
 import { UserContext } from "./UserContext";
 
 const Login = () =>
@@ -14,13 +13,12 @@ const Login = () =>
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;
-    setError(true);
 
     let bodyFormData = new FormData();
     bodyFormData.append("username", username);
     bodyFormData.append("password", password);
     axios({
-      method: "post",
+      method: "post", 
       url: "http://localhost:8000/login",
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data; charset=utf-8" },
