@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
-
+import {API_URL} from "../Constants"
 const Login = () => {
   const history = useHistory();
   const [error, setError] = useState(false);
@@ -20,7 +20,7 @@ const Login = () => {
     bodyFormData.append("password", password);
     axios({
       method: "post",
-      url: "http://localhost:8000/login",
+      url: `${API_URL}/login`,
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data; charset=utf-8" },
     })

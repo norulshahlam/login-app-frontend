@@ -23,9 +23,7 @@ const Restricted = () => {
           ),
         });
         // redirect to /welcome if not MANAGER role
-        if (!response.data.principal.authorities.includes("MANAGER")) {
-          console.log(user.role);
-          console.log(6);
+        if (!response.data.principal.authorities[0].authority.includes("MANAGER")) {
           history.push("/notAuthorized");
         }
       })
@@ -33,7 +31,6 @@ const Restricted = () => {
         // redirect to /login if not logged in
         history.push("/login");
       })
-      .finally(() => {});
   }, []);
   return <div>restricted page</div>;
 };
