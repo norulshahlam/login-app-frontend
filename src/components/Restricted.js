@@ -26,7 +26,7 @@ const Restricted = () => {
         if (!response.data.principal.authorities.includes("MANAGER")) {
           console.log(user.role);
           console.log(6);
-          history.push("/welcome");
+          history.push("/notAuthorized");
         }
       })
       .catch(() => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
@@ -8,6 +8,8 @@ const Login = () => {
   const [error, setError] = useState(false);
   const { user, setUser } = useContext(UserContext);
   console.log(user);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const username = e.target.username.value;
