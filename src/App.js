@@ -13,14 +13,9 @@ function App() {
   const dispatch = useDispatch();
   console.log(user);
 
-  
   useEffect(() => {
     dispatch(checkUser());
   }, []);
-
-
-
-
 
   return (
     <div className="app">
