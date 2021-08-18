@@ -1,69 +1,49 @@
-import React, { useEffect,  useContext } from "react";
+import React, { useEffect, useState } from "react";
 import UserDetails from "./UserDetails";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../Constants";
-import { UserContext } from "./UserContext";
+import { checkUser, logout } from "../redux/action";
+import { useDispatch, useSelector } from "react-redux";
 
 const Welcome = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const { user, setUser } = useContext(UserContext);
-
+  const user = useSelector((state) => state);
   const handleClick = (e) => {
     e.preventDefault();
     console.log(3);
-    axios
-      .get(`${API_URL}/logout`)
-      .then((response) => {
-        console.log(response);
-        setUser({ name: "", username: "", role: [""] });
-        history.push("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(logout());
+    history.push("/login")
   };
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${API_URL}/userdetails`,
-    })
-      .then((response) => {
-        console.log(response);
-        setUser({
-          name: response.data.name,
-          username: response.data.principal.username,
-          role: response.data.principal.authorities.map((item) =>
-            item.authority.slice(5)
-          ),
-        });
-      })
-      .catch(() => {
-        // redirect to /login if not logged in
-        history.push("/login");
-      });
+    dispatch(checkUser());
+    
   }, []);
 
   return (
     <div>
-      <div className="header">
-        <h2>welcome</h2>
-
-        <button
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        >
-          Logout
-        </button>
-        {user.role.includes("MANAGER") && (
-          <Link to="/restricted">Restricted page</Link>
-        )}
-      </div>
-      <div>
-        <UserDetails user={user} />
-      </div>
+      {user.loading ? (
+        <div>Loading</div>
+      ) : (
+        <div>
+          <div className="header">
+            <h2>welcome</h2>
+            <button
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              Logout
+            </button>
+            {user.role.includes("MANAGER") && (
+              <Link to="/restricted">Restricted page</Link>
+            )}
+          </div>
+          <div>
+            <UserDetails />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
