@@ -54,6 +54,7 @@ export const authenticate = (bodyFormData) => {
             role: response.data.principal.authorities.map((item) =>
               item.authority.slice(5)
             ),
+            loading: false,
           },
         });
       }

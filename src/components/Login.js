@@ -20,7 +20,6 @@ const Login = () => {
   }, [user]);
 
   const handleSubmit = (e) => {
-    console.log("submit")
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;

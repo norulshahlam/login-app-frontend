@@ -12,12 +12,12 @@ const Welcome = () => {
     e.preventDefault();
     console.log(3);
     dispatch(logout());
-    history.push("/login")
   };
-
+  
   useEffect(() => {
     dispatch(checkUser());
-    
+    if(user.name ==="")
+    history.push("/login")
   }, []);
 
   return (
