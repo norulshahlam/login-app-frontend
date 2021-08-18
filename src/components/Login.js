@@ -27,8 +27,8 @@ const Login = () => {
     let bodyFormData = new FormData();
     bodyFormData.append("username", username);
     bodyFormData.append("password", password);
-
     dispatch(authenticate(bodyFormData));
+    setError(true)
   };
 
   return (
